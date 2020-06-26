@@ -27,7 +27,7 @@ public class TodoController {
   }
 
   @GetMapping
-  public List<TodoItem> getAllTodos() {
+  public Iterable<TodoItem> getAllTodos() {
     return todoService.getAllTodos();
   }
 
@@ -37,8 +37,8 @@ public class TodoController {
   }
 
   @PutMapping("{id}/status")
-  public TodoItem updateTodoStatus(@PathVariable String id, @RequestBody UpdateStatusDto updateStatusDto) {
-    return todoService.updateTodoStatus(id, updateStatusDto.getStatus());
+  public TodoItem updateTodoStatus(@PathVariable String id, @RequestBody TodoItem status) {
+    return todoService.updateTodoStatus(id, status);
   }
 
   @DeleteMapping("{id}")

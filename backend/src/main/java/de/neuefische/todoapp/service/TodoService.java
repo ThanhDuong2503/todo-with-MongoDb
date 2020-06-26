@@ -1,33 +1,38 @@
 package de.neuefische.todoapp.service;
 
+import de.neuefische.todoapp.db.ToDoMongoDb;
 import de.neuefische.todoapp.db.TodoDb;
 import de.neuefische.todoapp.model.TodoItem;
 import de.neuefische.todoapp.model.TodoStatus;
 import de.neuefische.todoapp.model.dto.AddTodoDTO;
+import de.neuefische.todoapp.model.dto.UpdateStatusDto;
 import de.neuefische.todoapp.utils.IdGenerationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TodoService {
-  private final TodoDb db;
+  private final ToDoMongoDb toDoDb;
   private final IdGenerationService idGenerationService;
 
   @Autowired
-  public TodoService(TodoDb db, IdGenerationService idGenerationService) {
-    this.db = db;
+  public TodoService(ToDoMongoDb toDoDb, IdGenerationService idGenerationService) {
+    this.toDoDb = toDoDb;
     this.idGenerationService = idGenerationService;
   }
 
-  public List<TodoItem> getAllTodos() {
-    return db.getAllItems();
+  public Iterable<TodoItem> getAllTodos() {
+    return toDoDb.findAll();
   }
 
   public TodoItem addTodoItem(AddTodoDTO data) {
     TodoItem item = createTodoItem(data);
-    db.addItem(item);
+    toDoDb.save(item);
     return item;
   }
 
@@ -36,11 +41,19 @@ public class TodoService {
     return new TodoItem(randomId, data.getDescription(), TodoStatus.OPEN);
   }
 
-  public TodoItem updateTodoStatus(String id, TodoStatus status) {
-    return db.updateTodoStatus(id,status);
-  }
+  public TodoItem updateTodoStatus(String id, TodoItem status) {
+    Optional<TodoItem> result = toDoDb.findById(id);
+    if (result.isEmpty()) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+    } else {
+      TodoItem todoItem = result.get();
+      todoItem.setStatus(status.getStatus());
+      toDoDb.save(todoItem);
+      return todoItem;
+  }}
 
   public void deleteTodoItem(String id) {
-    db.deleteTodoItem(id);
+    toDoDb.deleteById(id);
   }
 }
+
