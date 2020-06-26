@@ -5,25 +5,25 @@ on:
     branches: [ master ]
 
 jobs:
-build-frontend:
-  name: build todo react frontend
-  runs-on: ubuntu-latest
-  steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js 14.x
-      uses: actions/setup-node@v1
-      with:
-        node-version: 14.x
-    - name: run npm install and build
-      run: |
-        cd frontend
-        npm install
-        npm run build
-    - name: upload frontend build artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: frontend-build
-        path: frontend/build/
+  build-frontend:
+    name: build todo react frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: run npm install and build
+        run: |
+          cd frontend
+          npm install
+          npm run build
+      - name: upload frontend build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: frontend-build
+          path: frontend/build/
 
   build-backend:
     name: build jar file
