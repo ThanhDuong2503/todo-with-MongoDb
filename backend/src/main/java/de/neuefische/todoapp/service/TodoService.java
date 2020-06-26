@@ -1,7 +1,6 @@
 package de.neuefische.todoapp.service;
 
 import de.neuefische.todoapp.db.ToDoMongoDb;
-import de.neuefische.todoapp.db.TodoDb;
 import de.neuefische.todoapp.model.TodoItem;
 import de.neuefische.todoapp.model.TodoStatus;
 import de.neuefische.todoapp.model.dto.AddTodoDTO;
