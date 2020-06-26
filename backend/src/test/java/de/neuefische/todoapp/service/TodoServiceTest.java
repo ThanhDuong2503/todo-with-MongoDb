@@ -13,24 +13,24 @@ import static org.mockito.Mockito.*;
 
 class TodoServiceTest {
 
-  private final TodoDb todoDb = mock(TodoDb.class);
-  private final IdGenerationService idGenerationService = mock(IdGenerationService.class);
-  private final TodoService todoService = new TodoService(todoDb, idGenerationService);
-
-  @Test
-  public void addTodoItemSchouldAddItemToDb(){
-    //GIVEN
-    AddTodoDTO todoItem = new AddTodoDTO("some description");
-    when(idGenerationService.generateRandomId()).thenReturn("someId");
-
-    //WHEN
-   TodoItem item = todoService.addTodoItem(todoItem);
-
-    //THEN
-    TodoItem expectedItem = new TodoItem("someId","some description", TodoStatus.OPEN);
-
-    assertEquals(expectedItem,item );
-    verify(todoDb).addItem(eq(expectedItem));
-
-  }
+//  private final TodoDb todoDb = mock(TodoDb.class);
+//  private final IdGenerationService idGenerationService = mock(IdGenerationService.class);
+//  private final TodoService todoService = new TodoService(todoDb, idGenerationService);
+//
+//  @Test
+//  public void addTodoItemSchouldAddItemToDb(){
+//    //GIVEN
+//    AddTodoDTO todoItem = new AddTodoDTO("some description");
+//    when(idGenerationService.generateRandomId()).thenReturn("someId");
+//
+//    //WHEN
+//   TodoItem item = todoService.addTodoItem(todoItem);
+//
+//    //THEN
+//    TodoItem expectedItem = new TodoItem("someId","some description", TodoStatus.OPEN);
+//
+//    assertEquals(expectedItem,item );
+//    verify(todoDb).addItem(eq(expectedItem));
+//
+//  }
 }
